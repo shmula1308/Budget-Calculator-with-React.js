@@ -1,0 +1,32 @@
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7em;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin: 0.5em 0;
+  border: 1px solid gray;
+}
+
+.expense-amount {
+  background-color: orangered;
+  padding: 0.2em;
+  color: #fff;
+}
+
+.expense-controls {
+}
+
+.expense-controls .icon {
+  margin-right: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.expense-controls span:nth-child(1) {
+  color: green;
+}
+
+.expense-controls span:nth-child(2) {
+  color: red;
+}

@@ -1,0 +1,23 @@
+.form-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.form-control input {
+  width: auto;
+  border: none;
+  border-bottom: 1px solid gray;
+  padding: 0.8em;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.form-control label {
+  align-self: flex-start;
+  margin-bottom: 1em;
+}

@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+  width: 70rem;
+  max-width: 90%;
+  margin: 5em auto;
+  background-color: #fff;
+  min-height: 600px;
+  padding: 1em;
+}
+
+.app-title {
+  font-family: sans-serif;
+}

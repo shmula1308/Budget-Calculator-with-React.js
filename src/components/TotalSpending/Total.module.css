@@ -1,0 +1,18 @@
+.total {
+  margin-top: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.total-label {
+  margin-right: 0.5em;
+  font-weight: 600;
+}
+
+.total-amount {
+  background-color: #ff4500;
+  color: #fff;
+  padding: 0.2em;
+}

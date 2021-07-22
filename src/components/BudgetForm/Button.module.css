@@ -1,0 +1,25 @@
+.button {
+  display: inline-block;
+  margin-top: 2.5em;
+  border: none;
+  padding: 0.8em 1.9em;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: salmon;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: sandybrown;
+}
+
+.icon {
+  transform: rotate(50deg);
+  color: #fff;
+  margin-left: 10px;
+}

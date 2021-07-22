@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import styles from "./App.module.css";
+import Card from "./components/UI/Card";
+import BudgetForm from "./components/BudgetForm/BudgetForm";
+import ExpenseList from "./components/Expenses/ExpensesList";
+import Button from "./components/BudgetForm/Button";
+import Total from "./components/TotalSpending/Total";
+import Alert from "./components/UserAlert/Alert";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Card className={styles.App}>
+      <h1 className="app-title">Budget Calculator</h1>
+      <BudgetForm />
+      <ExpenseList />
+      <Button>Clear Expenses</Button>
+      <Total />
+      <Alert />
+    </Card>
   );
 }
 
