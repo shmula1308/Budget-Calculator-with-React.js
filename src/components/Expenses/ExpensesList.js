@@ -5,7 +5,18 @@ import ExpenseItem from "./ExpenseItem";
 const ExpensesList = (props) => {
   return (
     <ul className={`${styles["expenses-list"]}`}>
-      <ExpenseItem />
+      {props.items.map((expense) => {
+        return (
+          <ExpenseItem
+            key={expense.id}
+            title={expense.title}
+            amount={expense.amount}
+            id={expense.id}
+            onEditExpense={props.onEditExpense}
+            onDeleteExpense={props.onDeleteExpense}
+          />
+        );
+      })}
     </ul>
   );
 };

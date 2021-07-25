@@ -7,7 +7,19 @@
   transform: translate(-50%);
   width: 60%;
   padding: 1em;
-  /* background: #53bd52; */
+  background: transparent;
   color: #fff;
   font-weight: 700;
+}
+
+.success {
+  text-align: center;
+  display: block;
+  background: #53bd52;
+}
+
+.fail {
+  text-align: center;
+  display: block;
+  background: red;
 }
