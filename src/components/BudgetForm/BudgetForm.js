@@ -54,7 +54,7 @@ const BudgetForm = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       {alert && <Alert error={alert.success}>{alert.message}</Alert>}
       <form onSubmit={onSubmitHandler}>
         <div className={`${styles["form-controls"]}`}>
@@ -81,7 +81,7 @@ const BudgetForm = (props) => {
         </div>
         <Button type="submit">Submit</Button>
       </form>
-    </div>
+    </React.Fragment>
   );
 };
 

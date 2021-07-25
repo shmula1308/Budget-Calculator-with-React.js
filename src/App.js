@@ -20,6 +20,11 @@ const App = () => {
 
   const onClearExpensesHandler = (event) => {
     setExpenses([]);
+    setAlert({ message: "Expenses cleared ", success: true });
+
+    setTimeout(() => {
+      setAlert("");
+    }, 3000);
   };
 
   // const onEditExpenseHandler = (itemsId) => {
