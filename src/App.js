@@ -9,16 +9,33 @@ import Alert from "./components/UserAlert/Alert";
 
 const App = () => {
   const [expenses, setExpenses] = useState([]);
-  // const [itemToEdit, setItemToEdit] = useState("");
+  const [item, setItem] = useState("");
   const [alert, setAlert] = useState("");
 
   const newExpenseHandler = (newExpense) => {
-    setExpenses((prevExpenses) => {
-      return [newExpense, ...prevExpenses];
-    });
+    let idx = expenses.findIndex((expense) => expense.id === newExpense.id);
+    if (idx > -1) {
+      setExpenses((prevExpenses) => {
+        // let editedExpenses = [...prevExpenses];
+        // editedExpenses[idx] = newExpense;
+        // console.log(editedExpenses);
+        // return editedExpenses;
+        return [...prevExpenses].map((expense, i) =>
+          i === idx
+            ? { ...expense, amount: newExpense.amount, title: newExpense.title }
+            : expense
+        );
+      });
+      return;
+    } else {
+      console.log("hello");
+      setExpenses((prevExpenses) => {
+        return [newExpense, ...prevExpenses];
+      });
+    }
   };
 
-  const onClearExpensesHandler = (event) => {
+  const onClearExpensesHandler = () => {
     setExpenses([]);
     setAlert({ message: "Expenses cleared ", success: true });
 
@@ -27,11 +44,10 @@ const App = () => {
     }, 3000);
   };
 
-  // const onEditExpenseHandler = (itemsId) => {
-  //   const expenseToEdit = expenses.filter((expense) => expense.id === itemsId);
-  //   console.log("app.js", expenseToEdit);
-  //   setItemToEdit(expenseToEdit);
-  // };
+  const onEditExpenseHandler = (itemId) => {
+    const expense = expenses.filter((expense) => expense.id === itemId);
+    setItem(expense);
+  };
 
   const onDeleteExpenseHandler = (itemId) => {
     setAlert({ message: "Item deleted", success: true });
@@ -47,8 +63,12 @@ const App = () => {
     <Card className={styles.App}>
       {alert && <Alert error={alert.success}>{alert.message}</Alert>}
       <h1 className="app-title">Budget Calculator</h1>
-      <BudgetForm onNewExpenseAdded={newExpenseHandler} />
-      <ExpenseList items={expenses} onDeleteExpense={onDeleteExpenseHandler} />
+      <BudgetForm onNewExpenseAdded={newExpenseHandler} itemToEdit={item} />
+      <ExpenseList
+        items={expenses}
+        onDeleteExpense={onDeleteExpenseHandler}
+        onEditExpense={onEditExpenseHandler}
+      />
       <Button onClick={onClearExpensesHandler}>Clear Expenses</Button>
       <Total items={expenses} />
     </Card>

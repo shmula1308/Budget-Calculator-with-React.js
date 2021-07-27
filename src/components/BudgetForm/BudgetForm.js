@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./BudgetForm.module.css";
 import Button from "./Button";
 import Alert from "../UserAlert/Alert";
@@ -7,6 +7,17 @@ const BudgetForm = (props) => {
   const [enteredExpense, setEnteredExpense] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
   const [alert, setAlert] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const expenseInput = useRef();
+  const amountInput = useRef();
+
+  useEffect(() => {
+    if (props.itemToEdit) {
+      expenseInput.current.value = props.itemToEdit[0].title;
+      amountInput.current.value = props.itemToEdit[0].amount;
+      setIsEdit(true);
+    }
+  }, [props.itemToEdit]);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
@@ -30,9 +41,24 @@ const BudgetForm = (props) => {
       return;
     }
 
+    if (isEdit) {
+      console.log(props.itemToEdit);
+      const expenseItem = {
+        title: expenseInput.current.value,
+        amount: amountInput.current.value,
+        id: props.itemToEdit[0].id,
+      };
+      props.onNewExpenseAdded(expenseItem);
+      setAlert({ message: "Item Edited", success: true });
+      setIsEdit(false);
+      expenseInput.current.value = "";
+      amountInput.current.value = "";
+      return;
+    }
+
     const expenseItem = {
-      title: enteredExpense,
-      amount: enteredAmount,
+      title: expenseInput.current.value,
+      amount: amountInput.current.value,
       id: Date.now().toString(),
     };
     props.onNewExpenseAdded(expenseItem);
@@ -41,9 +67,10 @@ const BudgetForm = (props) => {
     setTimeout(() => {
       setAlert("");
     }, 3000);
-
-    setEnteredExpense("");
-    setEnteredAmount("");
+    expenseInput.current.value = "";
+    amountInput.current.value = "";
+    // setEnteredExpense("");
+    // setEnteredAmount("");
   };
 
   const onChangeExpenseHandler = (event) => {
@@ -64,8 +91,8 @@ const BudgetForm = (props) => {
               type="text"
               id="expense"
               placeholder="e.g rent"
-              value={enteredExpense}
               onChange={onChangeExpenseHandler}
+              ref={expenseInput}
             />
           </div>
           <div className={`${styles["form-control"]}`}>
@@ -74,12 +101,12 @@ const BudgetForm = (props) => {
               type="number"
               id="amount"
               placeholder="e.g 100"
-              value={enteredAmount}
               onChange={onChangeAmountHandler}
+              ref={amountInput}
             />
           </div>
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{isEdit ? "Edit item" : "Submit"}</Button>
       </form>
     </React.Fragment>
   );
