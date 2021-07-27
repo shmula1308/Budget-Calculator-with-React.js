@@ -11,6 +11,7 @@ const App = () => {
   const [expenses, setExpenses] = useState([]);
   const [item, setItem] = useState("");
   const [alert, setAlert] = useState("");
+  const [deleteAction, setDeleteAction] = useState(false);
 
   const newExpenseHandler = (newExpense) => {
     let idx = expenses.findIndex((expense) => expense.id === newExpense.id);
@@ -42,7 +43,7 @@ const App = () => {
 
   const onDeleteExpenseHandler = (itemId) => {
     alertHandler({ message: "Item deleted", success: false });
-
+    setDeleteAction(true);
     return setExpenses((prevExpenses) => {
       return prevExpenses.filter((expense) => expense.id !== itemId);
     });
@@ -63,6 +64,8 @@ const App = () => {
         onNewExpenseAdded={newExpenseHandler}
         itemToEdit={item}
         alert={alertHandler}
+        deleteAction={deleteAction}
+        setDelete={setDeleteAction}
       />
       <ExpenseList
         items={expenses}

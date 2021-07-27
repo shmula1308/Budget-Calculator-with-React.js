@@ -15,6 +15,14 @@ const BudgetForm = (props) => {
     }
   }, [props.itemToEdit]);
 
+  useEffect(() => {
+    if (props.deleteAction) {
+      setEnteredExpense("");
+      setEnteredAmount("");
+      props.setDelete(false);
+    }
+  }, [props.deleteAction]);
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
