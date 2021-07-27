@@ -42,7 +42,7 @@ const BudgetForm = (props) => {
       };
       props.onNewExpenseAdded(expenseItem);
       props.alert({ message: "Item edited", success: true });
-
+      setIsEdit(false);
       setEnteredExpense("");
       setEnteredAmount("");
       return;
