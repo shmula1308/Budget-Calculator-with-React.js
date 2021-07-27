@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./BudgetForm.module.css";
 import Button from "./Button";
-import Alert from "../UserAlert/Alert";
 
 const BudgetForm = (props) => {
   const [enteredExpense, setEnteredExpense] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
-  const [alert, setAlert] = useState("");
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
@@ -21,7 +19,7 @@ const BudgetForm = (props) => {
     event.preventDefault();
 
     if (enteredExpense.trim().length === 0) {
-      alertHandler({
+      props.alert({
         message: "Item was not added. Non-empty values",
         success: false,
       });
@@ -29,7 +27,7 @@ const BudgetForm = (props) => {
     }
 
     if (+enteredAmount < 1) {
-      alertHandler({
+      props.alert({
         message: "Item was not added. Non-empty values",
         success: false,
       });
@@ -43,7 +41,7 @@ const BudgetForm = (props) => {
         id: props.itemToEdit[0].id,
       };
       props.onNewExpenseAdded(expenseItem);
-      alertHandler({ message: "Item edited", success: true });
+      props.alert({ message: "Item edited", success: true });
 
       setEnteredExpense("");
       setEnteredAmount("");
@@ -58,17 +56,10 @@ const BudgetForm = (props) => {
 
     props.onNewExpenseAdded(expenseItem);
 
-    alertHandler({ message: "Item added", success: true });
+    props.alert({ message: "Item added", success: true });
 
     setEnteredExpense("");
     setEnteredAmount("");
-  };
-
-  const alertHandler = ({ message, success }) => {
-    setAlert({ message, success });
-    setTimeout(() => {
-      setAlert("");
-    }, 3000);
   };
 
   const onChangeExpenseHandler = (event) => {
@@ -80,7 +71,6 @@ const BudgetForm = (props) => {
 
   return (
     <React.Fragment>
-      {alert && <Alert error={alert.success}>{alert.message}</Alert>}
       <form onSubmit={onSubmitHandler}>
         <div className={`${styles["form-controls"]}`}>
           <div className={`${styles["form-control"]}`}>

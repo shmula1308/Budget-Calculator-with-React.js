@@ -24,7 +24,6 @@ const App = () => {
       });
       return;
     } else {
-      console.log("hello");
       setExpenses((prevExpenses) => {
         return [newExpense, ...prevExpenses];
       });
@@ -33,11 +32,7 @@ const App = () => {
 
   const onClearExpensesHandler = () => {
     setExpenses([]);
-    setAlert({ message: "Expenses cleared ", success: true });
-
-    setTimeout(() => {
-      setAlert("");
-    }, 3000);
+    alertHandler({ message: "Expenses cleared ", success: true });
   };
 
   const onEditExpenseHandler = (itemId) => {
@@ -46,26 +41,37 @@ const App = () => {
   };
 
   const onDeleteExpenseHandler = (itemId) => {
-    setAlert({ message: "Item deleted", success: false });
-    setTimeout(() => {
-      setAlert("");
-    }, 3000);
+    alertHandler({ message: "Item deleted", success: false });
+
     return setExpenses((prevExpenses) => {
       return prevExpenses.filter((expense) => expense.id !== itemId);
     });
+  };
+
+  const alertHandler = ({ message, success }) => {
+    setAlert({ message, success });
+    setTimeout(() => {
+      setAlert("");
+    }, 3000);
   };
 
   return (
     <Card className={styles.App}>
       {alert && <Alert error={alert.success}>{alert.message}</Alert>}
       <h1 className="app-title">Budget Calculator</h1>
-      <BudgetForm onNewExpenseAdded={newExpenseHandler} itemToEdit={item} />
+      <BudgetForm
+        onNewExpenseAdded={newExpenseHandler}
+        itemToEdit={item}
+        alert={alertHandler}
+      />
       <ExpenseList
         items={expenses}
         onDeleteExpense={onDeleteExpenseHandler}
         onEditExpense={onEditExpenseHandler}
       />
-      <Button onClick={onClearExpensesHandler}>Clear Expenses</Button>
+      {expenses.length > 0 && (
+        <Button onClick={onClearExpensesHandler}>Clear Expenses</Button>
+      )}
       <Total items={expenses} />
     </Card>
   );
