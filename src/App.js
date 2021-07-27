@@ -16,10 +16,6 @@ const App = () => {
     let idx = expenses.findIndex((expense) => expense.id === newExpense.id);
     if (idx > -1) {
       setExpenses((prevExpenses) => {
-        // let editedExpenses = [...prevExpenses];
-        // editedExpenses[idx] = newExpense;
-        // console.log(editedExpenses);
-        // return editedExpenses;
         return [...prevExpenses].map((expense, i) =>
           i === idx
             ? { ...expense, amount: newExpense.amount, title: newExpense.title }
@@ -50,7 +46,7 @@ const App = () => {
   };
 
   const onDeleteExpenseHandler = (itemId) => {
-    setAlert({ message: "Item deleted", success: true });
+    setAlert({ message: "Item deleted", success: false });
     setTimeout(() => {
       setAlert("");
     }, 3000);

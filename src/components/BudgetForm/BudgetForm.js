@@ -8,13 +8,11 @@ const BudgetForm = (props) => {
   const [enteredAmount, setEnteredAmount] = useState("");
   const [alert, setAlert] = useState("");
   const [isEdit, setIsEdit] = useState(false);
-  const expenseInput = useRef();
-  const amountInput = useRef();
 
   useEffect(() => {
     if (props.itemToEdit) {
-      expenseInput.current.value = props.itemToEdit[0].title;
-      amountInput.current.value = props.itemToEdit[0].amount;
+      setEnteredExpense(props.itemToEdit[0].title);
+      setEnteredAmount(props.itemToEdit[0].amount);
       setIsEdit(true);
     }
   }, [props.itemToEdit]);
@@ -23,54 +21,54 @@ const BudgetForm = (props) => {
     event.preventDefault();
 
     if (enteredExpense.trim().length === 0) {
-      setAlert({ message: "Item not added", success: false });
-
-      setTimeout(() => {
-        setAlert("");
-      }, 3000);
+      alertHandler({
+        message: "Item was not added. Non-empty values",
+        success: false,
+      });
       return;
     }
 
     if (+enteredAmount < 1) {
-      setAlert({ message: "Item not added", success: false });
-
-      setTimeout(() => {
-        setAlert("");
-      }, 3000);
-
+      alertHandler({
+        message: "Item was not added. Non-empty values",
+        success: false,
+      });
       return;
     }
 
     if (isEdit) {
-      console.log(props.itemToEdit);
       const expenseItem = {
-        title: expenseInput.current.value,
-        amount: amountInput.current.value,
+        title: enteredExpense,
+        amount: enteredAmount,
         id: props.itemToEdit[0].id,
       };
       props.onNewExpenseAdded(expenseItem);
-      setAlert({ message: "Item Edited", success: true });
-      setIsEdit(false);
-      expenseInput.current.value = "";
-      amountInput.current.value = "";
+      alertHandler({ message: "Item edited", success: true });
+
+      setEnteredExpense("");
+      setEnteredAmount("");
       return;
     }
 
     const expenseItem = {
-      title: expenseInput.current.value,
-      amount: amountInput.current.value,
+      title: enteredExpense,
+      amount: enteredAmount,
       id: Date.now().toString(),
     };
-    props.onNewExpenseAdded(expenseItem);
-    setAlert({ message: "Item added", success: true });
 
+    props.onNewExpenseAdded(expenseItem);
+
+    alertHandler({ message: "Item added", success: true });
+
+    setEnteredExpense("");
+    setEnteredAmount("");
+  };
+
+  const alertHandler = ({ message, success }) => {
+    setAlert({ message, success });
     setTimeout(() => {
       setAlert("");
     }, 3000);
-    expenseInput.current.value = "";
-    amountInput.current.value = "";
-    // setEnteredExpense("");
-    // setEnteredAmount("");
   };
 
   const onChangeExpenseHandler = (event) => {
@@ -92,7 +90,7 @@ const BudgetForm = (props) => {
               id="expense"
               placeholder="e.g rent"
               onChange={onChangeExpenseHandler}
-              ref={expenseInput}
+              value={enteredExpense}
             />
           </div>
           <div className={`${styles["form-control"]}`}>
@@ -102,7 +100,7 @@ const BudgetForm = (props) => {
               id="amount"
               placeholder="e.g 100"
               onChange={onChangeAmountHandler}
-              ref={amountInput}
+              value={enteredAmount}
             />
           </div>
         </div>
